@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/titleFragment">
+
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="com.example.doorbell.TitleFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_title">
+        <action
+            android:id="@+id/action_titleFragment_to_imageGalleryFragment"
+            app:destination="@id/imageGalleryFragment" />
+        <action
+            android:id="@+id/action_titleFragment_to_videoStreamFragment"
+            app:destination="@id/videoStreamFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageGalleryFragment"
+        android:name="com.example.doorbell.images.ImageGalleryFragment"
+        android:label="@string/imagesTitle"
+        tools:layout="@layout/fragment_image_gallery" />
+    <fragment
+        android:id="@+id/videoStreamFragment"
+        android:name="com.example.doorbell.video.VideoStreamFragment"
+        android:label="@string/videoTitle"
+        tools:layout="@layout/fragment_video_stream" />
+</navigation>

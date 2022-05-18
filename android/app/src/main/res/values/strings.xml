@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Doorbell</string>
+    <string name="home">Home</string>
+    <string name="imagesButton">Photos</string>
+    <string name="imagesTitle">Photo Gallery</string>
+    <string name="videoButton">Video</string>
+    <string name="videoTitle">Video Streaming</string>
+</resources>
