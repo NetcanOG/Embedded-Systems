@@ -24,7 +24,7 @@ class PhotoGridAdapter :
 
     companion object DiffCallback : DiffUtil.ItemCallback<MarsPhoto>() {
         override fun areItemsTheSame(oldItem: MarsPhoto, newItem: MarsPhoto): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.imgSrcUrl == newItem.imgSrcUrl
         }
 
         override fun areContentsTheSame(oldItem: MarsPhoto, newItem: MarsPhoto): Boolean {

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.doorbell.network.MarsApi
 import com.example.doorbell.network.MarsPhoto
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 enum class MarsApiStatus { LOADING, ERROR, DONE }
 
@@ -25,8 +26,10 @@ class ImagesViewModel : ViewModel() {
             _status.value = MarsApiStatus.LOADING
             try {
                 _photos.value = MarsApi.retrofitService.getPhotos()
+                Timber.d(_photos.value.toString())
                 _status.value = MarsApiStatus.DONE
             } catch (e: Exception) {
+                Timber.d(e)
                 _status.value = MarsApiStatus.ERROR
                 _photos.value = listOf()
             }
