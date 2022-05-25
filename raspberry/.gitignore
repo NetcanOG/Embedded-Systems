@@ -1,3 +1,6 @@
 node_modules/
 
 ignore*
+
+photo_galery/photos/*
+

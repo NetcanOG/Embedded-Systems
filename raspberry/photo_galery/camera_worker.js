@@ -1,5 +1,5 @@
 const { parentPort, workerData } = require("worker_threads");
-
+const fileType = "jpeg"
 // Firebase
 {
     const { initializeApp } = require("firebase/app");
@@ -22,10 +22,10 @@ const { parentPort, workerData } = require("worker_threads");
     function storeFireBase() {
         let time = Date.now().toString();
         // Create a reference to 'mountains.jpg'
-        const imageRef = ref(storage, time + ".jpeg");
+        const imageRef = ref(storage, time + fileType);
 
         // Create a reference to 'images/mountains.jpg'
-        const fullImageRef = ref(storage, 'photos/' + time + ".jpeg");
+        const fullImageRef = ref(storage, 'photos/' + time + fileType);
 
         // 'file' comes from the Blob or File API
         uploadBytes(imageRef, fs.readFileSync('./photos/1.jpeg'))
@@ -40,12 +40,12 @@ const { parentPort, workerData } = require("worker_threads");
 {
     const NodeWebcam = require("node-webcam");
     var opts = {
-        width: 1280,
+        width: 720,
         height: 720,
         quality: 100,
         frames: 1,
         saveShots: true,
-        output: "jpeg",
+        output: fileType,
 
         //Which camera to use
         //Use Webcam.list() for results
@@ -64,7 +64,7 @@ const { parentPort, workerData } = require("worker_threads");
 
 function takePicture() {
     let time = Date.now().toString()
-    Webcam.capture("./photos/" + time + ".jpeg", function (err, data) { });
+    Webcam.capture("./photos/" + time + fileType, function (err, data) { });
     //storeFireBase();
     console.log("Picture Taken by Worker!")
 }
