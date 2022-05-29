@@ -20,6 +20,7 @@ app.get("/photos", (req, res) => {
     for (photo_name of fs.readdirSync(photo_dir)) {
         new_obj = {
             img_src: "http://" + url + "/photos/" + photo_name,
+            name: photo_name,
         }
         obj.push(new_obj)
     }
