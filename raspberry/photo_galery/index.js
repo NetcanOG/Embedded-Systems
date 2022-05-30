@@ -12,15 +12,15 @@ app.use("/photos", express.static(photo_dir));
  * Send an array of all photos as a
  * response to get requests to "/photos"
  */
-const ip = "localhost";
-const url = ip + ":3000";
+const ip = "192.168.1.13";
+const url = ip + ":" + PORT;
 app.get("/photos", (req, res) => {
     let obj = []
     let new_obj = {}
     for (photo_name of fs.readdirSync(photo_dir)) {
         new_obj = {
             name: photo_name,
-            timestamp: photo_name,
+            timestamp: photo_name.split(/\.(?=[^\.]+$)/)[0],
             img_src: "http://" + url + "/photos/" + photo_name,
         }
         obj.push(new_obj)

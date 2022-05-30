@@ -1,5 +1,4 @@
 const { parentPort, workerData } = require("worker_threads");
-import { randomUUID } from 'crypto'
 
 const fileType = "jpeg"
 // Firebase
