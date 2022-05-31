@@ -77,7 +77,8 @@ const fileType = "jpeg"
 
 function takePicture() {
     let time = Date.now().toString()
-    Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
+    //Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
+    myCamera.output = ("./photos/" + time + "." + fileType);
     //storeFireBase();
     console.log("Picture Taken by Worker!")
 }
