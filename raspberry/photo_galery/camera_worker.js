@@ -23,10 +23,10 @@ const fileType = "jpeg"
     function storeFireBase() {
         let time = Date.now().toString();
         // Create a reference to 'mountains.jpg'
-        const imageRef = ref(storage, time + fileType);
+        const imageRef = ref(storage, time + "." + fileType);
 
         // Create a reference to 'images/mountains.jpg'
-        const fullImageRef = ref(storage, 'photos/' + time + fileType);
+        const fullImageRef = ref(storage, 'photos/' + time + "." + fileType);
 
         // 'file' comes from the Blob or File API
         uploadBytes(imageRef, fs.readFileSync('./photos/1.jpeg'))
@@ -39,6 +39,7 @@ const fileType = "jpeg"
 
 // Computer camera settings bellow
 {
+
     const NodeWebcam = require("node-webcam");
     var opts = {
         width: 720,
@@ -63,9 +64,20 @@ const fileType = "jpeg"
     var Webcam = NodeWebcam.create(opts);
 }
 
+// Raspberry Pi camera setting bellow
+{
+    const PiCamera = require('pi-camera');
+    const myCamera = new PiCamera({
+        mode: 'photo',
+        width: 720,
+        height: 720,
+        preview: false,
+    });
+}
+
 function takePicture() {
     let time = Date.now().toString()
-    Webcam.capture("./photos/" + time + fileType, function (err, data) { });
+    Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
     //storeFireBase();
     console.log("Picture Taken by Worker!")
 }
@@ -76,7 +88,7 @@ parentPort.on("message", function (msg) {
     let message = msg.data;
     let timeOutInterval = msg.timeOutInterval * 1000;
 
-    if (message == "startCapture"){
+    if (message == "startCapture") {
         clearInterval(interval);
         interval = setInterval(function () {
             takePicture();
