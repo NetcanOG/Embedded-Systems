@@ -66,19 +66,20 @@ const fileType = "jpeg"
 
 // Raspberry Pi camera setting bellow
 {
-    const PiCamera = require('pi-camera');
-    const myCamera = new PiCamera({
-        mode: 'photo',
-        width: 720,
-        height: 720,
-        preview: false,
-    });
 }
+const PiCamera = require('pi-camera');
+var myCamera = new PiCamera({
+    mode: 'photo',
+    width: 720,
+    height: 720,
+    preview: false,
+});
 
 function takePicture() {
     let time = Date.now().toString()
     //Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
-    myCamera.output = ("./photos/" + time + "." + fileType);
+    myCamera.set(output, "./photos/" + time + "." + fileType);
+    myCamera.snap();
     //storeFireBase();
     console.log("Picture Taken by Worker!")
 }
