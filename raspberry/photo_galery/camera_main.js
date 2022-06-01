@@ -3,6 +3,16 @@ const seconds_between_photo = 5;
 
 // 'id' used to show that every "new" worker, is actually the same worker
 var id = 0;
+
+const { Raspistill } = require("node-raspistill");
+const camera = new Raspistill({
+    verticalFlip: true,
+    width: 800,
+    height: 600,
+    outputDir: "./photos",
+    encoding: "png",
+});
+
 class cameraWorker{
     worker = null;
     constructor(){
@@ -11,6 +21,11 @@ class cameraWorker{
         this.worker = new Worker("./camera_worker.js");
 
         this.worker.on("message", result => {
+            if(result == "take photo"){
+                camera.takePhoto().then((photo) => {
+                    console.log(photo);
+                });
+            }  
             console.log(result);
         });
     
