@@ -12,7 +12,7 @@ app.use("/photos", express.static(photo_dir));
  * Send an array of all photos as a
  * response to get requests to "/photos"
  */
-const ip = "192.168.1.13";
+const ip = "rasp1.local";
 const url = ip + ":" + PORT;
 app.get("/photos", (req, res) => {
     let obj = []
@@ -44,10 +44,15 @@ app.listen(PORT, () => {
 
 var interval;
 const workerObj = require("./camera_main").newCameraWorker();
-const timeOutInterval = 5;
-const timeOutIntervalMinutes = 5;
+const timeOutInterval = 2;
+const timeOutIntervalMinutes = 0.2;
 
 
+var SerialPort = require("serialport").SerialPort;
+var serialPort = new SerialPort({
+    path: "/dev/ttyACM0",
+    baudRate: 9600,
+});
 serialPort.on("open", function () {
     console.log('open');
 
@@ -56,8 +61,6 @@ serialPort.on("open", function () {
             workerObj.worker.postMessage({ data: "startCapture", timeOutInterval: timeOutInterval })
             console.log("Resetting " + timeOutIntervalMinutes + "minute Capture Timer...")
             interval = setInterval(function () {
-                if (workerObj != null)
-                    workerObj.worker.postMessage({ data: "stopCapture" });
                 clearInterval(interval);
             }, timeOutIntervalMinutes * 60 * 1000);
         }

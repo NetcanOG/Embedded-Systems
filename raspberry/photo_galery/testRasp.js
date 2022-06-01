@@ -1,33 +1,22 @@
 const { Raspistill } = require("node-raspistill");
-const camera = new Raspistill({
-    verticalFlip: true,
-    width: 800,
-    height: 600,
-    outputDir: "./photos",
-    encoding: "png",
+
+const {spawn} = require("child_process");
+
+var {SerialPort, ReadlineParser} = require("serialport");
+var serialPort = new SerialPort({
+    path: "/dev/ttyACM0",
+    baudRate: 9600,
 });
 
+const parser = new ReadlineParser();
+serialPort.pipe(parser);
 
-var SerialPort = require("serialport").SerialPort;
-var serialPort = new SerialPort("/dev/ttyACM0", {
-    baudrate: 9600
-});
+parser.on('data', console.log);
 
-serialPort.on("open", function () {
-    console.log('open');
-
-    serialPort.on('data', function (data) {
-        console.log('data received: ' + data);
-    });
-
-    serialPort.write(new Buffer('4', 'ascii'), function (err, results) {
-        console.log('err ' + err);
-        console.log('results ' + results);
-    });
-});
-
+let photo;
 function takePhoto(){
-    camera.takePhoto().then((photo) => {
-        console.log(photo);
-    });
+    	photo = spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "./photos/" + Date.now() + ".png"]);
+	photo.stdout.on("data", data => { 
+		console.log(`stdout: ${data}`); 
+	}); 
 }
