@@ -1,6 +1,6 @@
 const { parentPort, workerData } = require("worker_threads");
 
-const fileType = "jpeg"
+const fileType = "png"
 // Firebase
 {
     const { initializeApp } = require("firebase/app");
@@ -65,21 +65,22 @@ const fileType = "jpeg"
 }
 
 // Raspberry Pi camera setting bellow
-{
-}
-const PiCamera = require('pi-camera');
-var myCamera = new PiCamera({
-    mode: 'photo',
-    width: 720,
-    height: 720,
-    preview: false,
+const { Raspistill } = require("node-raspistill");
+const camera = new Raspistill({
+    verticalFlip: true,
+    width: 800,
+    height: 600,
+    outputDir: "./photos",
+    encoding: fileType,
 });
+
 
 function takePicture() {
     let time = Date.now().toString()
     //Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
-    myCamera.set(output, "./photos/" + time + "." + fileType);
-    myCamera.snap();
+    camera.takePhoto().then((photo) => {
+        console.log(photo);
+    });
     //storeFireBase();
     console.log("Picture Taken by Worker!")
 }
