@@ -65,19 +65,19 @@ const fileType = "png"
 }
 
 // Raspberry Pi camera setting bellow
+
+
 const { Raspistill } = require("node-raspistill");
-const camera = new Raspistill({
-    verticalFlip: true,
-    width: 800,
-    height: 600,
-    outputDir: "./photos",
-    encoding: fileType,
-});
-
-
 function takePicture() {
-    let time = Date.now().toString()
+    //let time = Date.now().toString()
     //Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
+    const camera = new Raspistill({
+        verticalFlip: true,
+        width: 800,
+        height: 600,
+        outputDir: "./photos",
+        encoding: "png",
+    });
     camera.takePhoto().then((photo) => {
         console.log(photo);
     });
