@@ -65,11 +65,11 @@ const fileType = "png"
 }
 
 // Raspberry Pi camera setting bellow
-
+const { spawn } = require("child_process");
 function takePicture() {
     //let time = Date.now().toString()
     //Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
-    parentPort.postMessage("take photo")
+    spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "./photos/" + Date.now() + ".png"]);
     console.log("Picture Taken by Worker!")
 }
 
