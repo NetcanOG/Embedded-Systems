@@ -1,5 +1,4 @@
 const { Worker } = require("worker_threads");
-const seconds_between_photo = 5;
 
 // 'id' used to show that every "new" worker, is actually the same worker
 var id = 0;
@@ -9,7 +8,8 @@ class cameraWorker{
     constructor(){
         this.id = id+1;
         id += 1;
-        this.worker = new Worker("./camera_worker.js");
+        this.estado;
+        this.worker = new Worker("../src/Camera\ Operator/camera_worker.js");
 
         this.worker.on("message", result => {
             console.log(result);

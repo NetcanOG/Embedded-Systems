@@ -39,7 +39,6 @@ const fileType = "png"
 
 // Computer camera settings bellow
 {
-
     const NodeWebcam = require("node-webcam");
     var opts = {
         width: 720,
@@ -66,15 +65,18 @@ const fileType = "png"
 
 // Raspberry Pi camera setting bellow
 const { spawn } = require("child_process");
+/*
+const fs = require('fs');
+console.log(fs.readdirSync("../photos"));
+*/
 function takePicture() {
-    //let time = Date.now().toString()
-    //Webcam.capture("./photos/" + time + "." + fileType, function (err, data) { });
-    spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "./photos/" + Date.now() + ".png"]);
+    spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "../photos/" + Date.now() + "." + fileType]);
     console.log("Picture Taken by Worker!")
 }
 
 var interval;
 parentPort.on("message", function (msg) {
+    // PARA APAGAR OS PRINTS DAS MENSAGEMS -> APAGAR A LINHA DE BAIXO
     parentPort.postMessage(msg)
     let message = msg.data;
     let timeOutInterval = msg.timeOutInterval * 1000;
