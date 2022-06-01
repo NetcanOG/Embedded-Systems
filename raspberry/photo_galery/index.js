@@ -47,6 +47,24 @@ const workerObj = require("./camera_main").newCameraWorker();
 const timeOutInterval = 5;
 const timeOutIntervalMinutes = 5;
 
+
+serialPort.on("open", function () {
+    console.log('open');
+
+    serialPort.on('data', function (data) {
+        if (data == "M") {
+            workerObj.worker.postMessage({ data: "startCapture", timeOutInterval: timeOutInterval })
+            console.log("Resetting " + timeOutIntervalMinutes + "minute Capture Timer...")
+            interval = setInterval(function () {
+                if (workerObj != null)
+                    workerObj.worker.postMessage({ data: "stopCapture" });
+                clearInterval(interval);
+            }, timeOutIntervalMinutes * 60 * 1000);
+        }
+
+    });
+});
+
 app.post("/camera/startCapture", (req, res) => {
     if (workerObj != null) {
         console.log("Starting Capture...")
