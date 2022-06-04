@@ -12,7 +12,7 @@ module.exports.reset = function resetTimer() {
     interval = setInterval(function () {
         if (workerObj != null) {
             workerObj.worker.postMessage({ data: "stopCapture" });
-            workerObj.worker.estado = "Sleep";
+            workerObj.worker.estado = "Idle";
         }
         clearInterval(interval);
     }, timeOutIntervalMinutes * 60 * 1000);

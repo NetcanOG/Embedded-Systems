@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const ip = "rasp1.local";
 const PORT = 3000;

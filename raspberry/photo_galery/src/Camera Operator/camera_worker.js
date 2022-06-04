@@ -1,41 +1,6 @@
 const { parentPort, workerData } = require("worker_threads");
 
 const fileType = "png"
-// Firebase
-{
-    const { initializeApp } = require("firebase/app");
-    const { getStorage, ref, uploadBytes } = require("firebase/storage");
-    const fs = require("fs");
-
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyApxRfbs6ESwc-g_FVIk7AjznWV0AxG8WY",
-        authDomain: "doorbell-76f1f.firebaseapp.com",
-        projectId: "doorbell-76f1f",
-        storageBucket: "doorbell-76f1f.appspot.com",
-        messagingSenderId: "718748135646",
-        appId: "1:718748135646:web:b2487753e716f76a6f524f"
-    };
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    var storage = getStorage(app);
-
-    function storeFireBase() {
-        let time = Date.now().toString();
-        // Create a reference to 'mountains.jpg'
-        const imageRef = ref(storage, time + "." + fileType);
-
-        // Create a reference to 'images/mountains.jpg'
-        const fullImageRef = ref(storage, 'photos/' + time + "." + fileType);
-
-        // 'file' comes from the Blob or File API
-        uploadBytes(imageRef, fs.readFileSync('./photos/1.jpeg'))
-            .then((snapshot) => {
-                console.log(snapshot);
-            });
-    }
-}
-
 
 // Computer camera settings bellow
 {
@@ -65,10 +30,7 @@ const fileType = "png"
 
 // Raspberry Pi camera setting bellow
 const { spawn } = require("child_process");
-/*
-const fs = require('fs');
-console.log(fs.readdirSync("../photos"));
-*/
+
 function takePicture() {
     spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "../photos/" + Date.now() + "." + fileType]);
     console.log("Picture Taken by Worker!")
@@ -81,13 +43,21 @@ parentPort.on("message", function (msg) {
     let message = msg.data;
     let timeOutInterval = msg.timeOutInterval * 1000;
 
-    if (message == "startCapture") {
-        clearInterval(interval);
-        interval = setInterval(function () {
-            takePicture();
-        }, timeOutInterval);
+    switch (message) {
+        case "startCapture":
+            clearInterval(interval);
+            interval = setInterval(function () {
+                takePicture();
+            }, timeOutInterval);
+            break;
+        case "startStream":
+            parentPort.postMessage("startStream")
+            break;
+        case "stopStream":
+            parentPort.postMessage("stopStream")
+            break;
+        default:
+            clearInterval(interval);
+            break;
     }
-    else {
-        clearInterval(interval);
-    }
-})
+});
