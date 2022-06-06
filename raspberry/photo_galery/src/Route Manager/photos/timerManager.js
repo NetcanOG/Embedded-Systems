@@ -1,12 +1,6 @@
-var workerObj = null;
-var timeOutIntervalMinutes;
-module.exports = function (workerObj,timeOutIntervalMinutes) {
-    this.workerObj = workerObj;
-    this.timeOutIntervalMinutes = timeOutIntervalMinutes;
-}
-
 var interval;
-module.exports.reset = function resetTimer() {
+module.exports.reset = resetTimer;
+function resetTimer(workerObj, timeOutIntervalMinutes) {
     console.log("Resetting " + timeOutIntervalMinutes + "minute Capture Timer...")
     clearInterval(interval);
     interval = setInterval(function () {
@@ -18,7 +12,7 @@ module.exports.reset = function resetTimer() {
     }, timeOutIntervalMinutes * 60 * 1000);
 }
 
-module.exports.resetRes = function resetTimerRes(res) {
-    resetTimer();
+module.exports.resetRes = function resetTimerRes(res, workerObj, timeOutIntervalMinutes) {
+    resetTimer(workerObj, timeOutIntervalMinutes);
     res.send("Timer Reset");
 }

@@ -52,8 +52,13 @@ parentPort.on("message", function (msg) {
             break;
         case "startStream":
             parentPort.postMessage("startStream")
+            clearInterval(interval);
+            interval = setInterval(function (){
+                parentPort.postMessage("stopStream")
+            }, timeOutInterval * 60)
             break;
         case "stopStream":
+            clearInterval(interval);
             parentPort.postMessage("stopStream")
             break;
         default:

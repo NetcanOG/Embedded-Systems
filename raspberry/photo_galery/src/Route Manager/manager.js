@@ -5,6 +5,7 @@ const ip = "rasp1.local";
 const url = ip + ":" + PORT;
 const timeOutInterval = 5;
 const timeOutIntervalMinutes = 1;
+const timeOutIntervalMinutesStream = 1;
 
 module.exports = function (app) {
     require("./photos/photoManager")(app, photo_dir);
@@ -16,7 +17,8 @@ module.exports = function (app) {
         app,
         workerObj,
         timeOutInterval,
-        timeOutIntervalMinutes
+        timeOutIntervalMinutes,
+        timeOutIntervalMinutesStream
     );  
 
     //TO-DO

@@ -9,6 +9,7 @@ class cameraWorker {
         this.id = id + 1;
         id += 1;
         this.estado = "Idle";
+        this.stream = null;
         this.worker = new Worker("../src/Camera\ Operator/camera_worker.js");
 
         this.worker.on("message", result => {
