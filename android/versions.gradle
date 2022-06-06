@@ -1,0 +1,25 @@
+ext.versions = [
+        minSdk      : 26,
+        compileSdk  : 32,
+        targetSdk   : 32,
+        versionCode : 1,
+        versionName : '1.0.0',
+
+        material3   : '1.0.0-alpha12',
+        compose     : '1.2.0-beta02',
+        constraint  : '1.0.0-rc01',
+        activity    : '1.4.0',
+        navigation  : '2.4.2',
+        lifecycle   : '2.4.1',
+        landscapist : '1.5.2',
+        startup     : '1.1.1',
+        moshi       : '1.13.0',
+        retrofit    : '2.9.0',
+        okhttp      : '4.9.3',
+        timber      : '5.0.1',
+        accompanist : '0.24.9-beta',
+        splashscreen: '1.0.0-rc01',
+        datastore   : '1.0.0',
+        media3 : '1.0.0-alpha03'
+
+]
