@@ -7,12 +7,12 @@ module.exports.startStream = function (workerObj) {
         if (workerObj.estado != "Streaming") {
             workerObj.stream = spawn('python3', ['./Camera Operator/stream/stream.py']);
             workerObj.estado = "Streaming"
-            
+
             workerObj.stream.stdout.once('data', async () => {
                 const url = await ngrok.connect(9090);
                 print("Stream em: " + url)
             });
-        
+
             workerObj.stream.on('close', (code) => {
                 console.log(`child process exited with code ${code}`);
                 //workerObj.estado = "Idle"
@@ -21,8 +21,6 @@ module.exports.startStream = function (workerObj) {
 
         console.log("Objeto do spawn: " + workerObj.stream);
     }
-
-
 }
 
 module.exports.stopStream = function (workerObj) {

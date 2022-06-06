@@ -13,16 +13,24 @@ module.exports = function (app) {
     const workerObj = require("../Camera Operator/camera_object")
         .newCameraWorker();
 
+    const timerManager = require("./photos/timerManager");
     require("./photos/cameraManager")(
         app,
         workerObj,
         timeOutInterval,
         timeOutIntervalMinutes,
-        timeOutIntervalMinutesStream
-    );  
+        timeOutIntervalMinutesStream,
+        timerManager,
+    );
 
     //TO-DO
-    //require("./serialPort/manager")(workerObj);
+    require("./serialPort/serialManager")(
+        workerObj,
+        timeOutInterval,
+        timeOutIntervalMinutes,
+        timeOutIntervalMinutesStream,
+        timerManager,
+    );
 
     /* In case you want to test if the singleton works, run this function */
     function testSingleton_CameraWorker() {

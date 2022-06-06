@@ -31,8 +31,9 @@ const fileType = "png"
 // Raspberry Pi camera setting bellow
 const { spawn } = require("child_process");
 
+var picture;
 function takePicture() {
-    spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "../photos/" + Date.now() + "." + fileType]);
+    picture = spawn("raspistill", ["-vf", "-n", "-e", "png", "-w", "800", "-h", "600", "-o", "../photos/" + Date.now() + "." + fileType]);
     console.log("Picture Taken by Worker!")
 }
 
@@ -51,11 +52,16 @@ parentPort.on("message", function (msg) {
             }, timeOutInterval);
             break;
         case "startStream":
+            // let auxStream = setInterval(() =>{
+            if(picture != null) picture.kill();
             parentPort.postMessage("startStream")
             clearInterval(interval);
-            interval = setInterval(function (){
+            interval = setInterval(function () {
                 parentPort.postMessage("stopStream")
             }, timeOutInterval * 60)
+
+            // clearInterval(auxStream);
+            // }, 2000)
             break;
         case "stopStream":
             clearInterval(interval);

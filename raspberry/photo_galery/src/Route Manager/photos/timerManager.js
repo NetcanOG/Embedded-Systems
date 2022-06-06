@@ -14,5 +14,5 @@ function resetTimer(workerObj, timeOutIntervalMinutes) {
 
 module.exports.resetRes = function resetTimerRes(res, workerObj, timeOutIntervalMinutes) {
     resetTimer(workerObj, timeOutIntervalMinutes);
-    res.send("Timer Reset");
+    try { res.send("Timer Reset"); } catch { }
 }

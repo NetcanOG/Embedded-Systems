@@ -3,25 +3,29 @@ var serialPort = new SerialPort({
     path: "/dev/ttyACM0",
     baudRate: 9600,
 });
-module.exports = function (workerObj) {
+module.exports = function (
+    workerObj,
+    timeOutInterval,
+    timeOutIntervalMinutes,
+    timeOutIntervalMinutesStream,
+    timeManager,
+) {
+    const functions = require("../../Route Manager/photos/functions");
     serialPort.on("open", function () {
         serialPort.on('data', function (data) {
-            if (data == "M") {
-                if (!workerObj.worker.estado == "Taking Pictures") {
-                    workerObj.worker.postMessage({ data: "startCapture", timeOutInterval: timeOutInterval })
-                    workerObj.worker.estado = "Taking Pictures";
-                }
-                console.log("Resetting " + timeOutIntervalMinutes + "minute Capture Timer...")
-                clearInterval(interval);
-                interval = setInterval(function () {
-                    if (workerObj != null) {
-                        workerObj.worker.postMessage({ data: "stopCapture" });
-                        workerObj.worker.estado = "Sleep";
-                    }
-                    clearInterval(interval);
-                }, timeOutIntervalMinutes * 60 * 1000);
+            console.log("Buffer: " + data);
+            console.log(data.toString().replace(/[\s\r\n]/,'') + "\n++++++++");
+            switch (data.toString().replace(/[\s\r\n]/,'')) {
+                case "M":
+                    functions.startCapture(null, workerObj, timeOutInterval, timeOutIntervalMinutes, timeManager);
+                    break;
+                case "B":
+                    console.log("Devia comercar a stream")
+                    functions.startStream(null, workerObj, timeOutIntervalMinutesStream)
+                    break;
+                default:
+                    break;
             }
-
         });
     });
 }

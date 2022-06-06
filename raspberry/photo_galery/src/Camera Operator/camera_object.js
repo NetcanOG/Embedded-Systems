@@ -15,10 +15,10 @@ class cameraWorker {
         this.worker.on("message", result => {
             switch (result) {
                 case "startStream":
-                    require("../Camera Operator/stream/main").startStream(this);
+                    require("./stream/stream").startStream(this);
                     break;
                 case "stopStream":
-                    require("../Camera Operator/stream/main").stopStream(this);
+                    require("./stream/stream").stopStream(this);
                     break;
                 default:
                     console.log(result);
