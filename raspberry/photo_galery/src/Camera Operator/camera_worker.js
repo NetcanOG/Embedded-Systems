@@ -58,6 +58,7 @@ parentPort.on("message", function (msg) {
             clearInterval(interval);
             interval = setInterval(function () {
                 parentPort.postMessage("stopStream")
+                clearInterval(interval)
             }, timeOutInterval * 60)
 
             // clearInterval(auxStream);
